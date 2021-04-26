@@ -1,12 +1,12 @@
 import 'package:clima/services/location.dart';
 import 'package:clima/services/networking.dart';
 
-const apiKey = 'e72ca729af228beabd5d20e3b7749713';
+const apiKey = '';
 const openWeatherMapURL = 'https://api.openweathermap.org/data/2.5/weather';
 
 class WeatherModel {
   Future<dynamic> getCityWeather(String cityName) async {
-    NetworkHelper networkHelper = NetworkHelper(
+    final NetworkHelper networkHelper = NetworkHelper(
         '$openWeatherMapURL?q=$cityName&appid=$apiKey&units=metric');
 
     var weatherData = await networkHelper.getData();
@@ -14,10 +14,10 @@ class WeatherModel {
   }
 
   Future<dynamic> getLocationWeather() async {
-    Location location = Location();
+    final Location location = Location();
     await location.getCurrentLocation();
 
-    NetworkHelper networkHelper = NetworkHelper(
+    final NetworkHelper networkHelper = NetworkHelper(
         '$openWeatherMapURL?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric');
 
     var weatherData = await networkHelper.getData();
@@ -25,34 +25,13 @@ class WeatherModel {
   }
 
   String getWeatherIcon(int condition) {
-    if (condition < 300) {
+    if (condition < 300 || condition < 400) {
       return '🌩';
-    } else if (condition < 400) {
-      return '🌧';
-    } else if (condition < 600) {
-      return '☔️';
-    } else if (condition < 700) {
-      return '☃️';
-    } else if (condition < 800) {
-      return '🌫';
-    } else if (condition == 800) {
-      return '☀️';
-    } else if (condition <= 804) {
-      return '☁️';
-    } else {
-      return '🤷‍';
     }
-  }
 
-  String getMessage(int temp) {
-    if (temp > 25) {
-      return 'It\'s 🍦 time';
-    } else if (temp > 20) {
-      return 'Time for shorts and 👕';
-    } else if (temp < 10) {
-      return 'You\'ll need 🧣 and 🧤';
-    } else {
-      return 'Bring a 🧥 just in case';
-    }
+    return  (condition < 600) ? '☔️' :
+            (condition < 700) ? '☃️' :
+            (condition == 800) ? '☀️' :
+            (condition <= 804) ? '☁️' : '';
   }
 }

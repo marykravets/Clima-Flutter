@@ -13,7 +13,7 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
-  WeatherModel weather = WeatherModel();
+  final WeatherModel weather = WeatherModel();
   int? temperature;
   String? weatherIcon;
   String? cityName;
@@ -36,11 +36,11 @@ class _LocationScreenState extends State<LocationScreen> {
         cityName = '';
         return;
       }
-      double temp = weatherData['main']['temp'];
+      final double temp = weatherData['main']['temp'];
       temperature = temp.toInt();
       var condition = weatherData['weather'][0]['id'];
       weatherIcon = weather.getWeatherIcon(condition);
-      weatherMessage = weather.getMessage(temperature ?? 0);
+      weatherMessage = "";
       cityName = weatherData['name'];
     });
   }
